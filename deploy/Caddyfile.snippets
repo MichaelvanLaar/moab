@@ -1,0 +1,108 @@
+# Ready-to-import Caddy snippets that `deploy/Caddyfile.static` and
+# `deploy/Caddyfile.ssr` expect to already exist in your central
+# Caddyfile: `common_config`, `security_headers`, `content_security_policy`,
+# and `www_to_naked`.
+#
+# How to use
+# ----------
+# Either paste these four blocks into the top of your central Caddyfile,
+# or keep them in a separate file and pull them in once:
+#
+#     import /etc/caddy/Caddyfile.snippets
+#
+# Deviation from a fully hardened production setup
+# ------------------------------------------------
+# `security_headers` emits HSTS WITHOUT the `preload` directive. Submitting
+# a domain to the HSTS preload list is a long-term commitment — removal
+# takes months and breaks plain-HTTP access for every visitor in the
+# meantime. Opt in per site only when you understand that trade-off.
+#
+# `php_setup` is intentionally not included — this boilerplate ships an
+# Astro site, not a PHP app. Add your own snippet if you need it.
+
+# ----------------------------------------------------------------------
+# | Basic configuration for all hosted sites                           |
+# ----------------------------------------------------------------------
+
+(common_config) {
+	# Deactivate access logging (set your own output if you need logs)
+	log {
+		output discard
+	}
+
+	# gzip compression
+	encode gzip
+
+	# Block hidden files and common backup/source file extensions
+	@forbidden {
+		path_regexp hidden ^/\..*|.*\.(bak|conf|dist|fla|in[ci]|log|orig|psd|sh|sql|sw[op]|~)$
+	}
+	respond @forbidden 403
+
+	# Remove ETag headers to minimize caching issues
+	header -ETag
+
+	# Default headers for HTML pages (requests without a file extension).
+	# This avoids overriding MIME types and cache policies for static assets.
+	@html not path_regexp \.[a-z0-9]+$
+	header @html {
+		Content-Type "text/html; charset=utf-8"
+		Cache-Control "no-store"
+	}
+}
+
+# ----------------------------------------------------------------------
+# | Security headers                                                   |
+# ----------------------------------------------------------------------
+
+(security_headers) {
+	header {
+		# Enforce HTTPS. `preload` is intentionally omitted — see file header.
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+
+		# Prevent clickjacking
+		X-Frame-Options "SAMEORIGIN"
+
+		# Prevent MIME type sniffing
+		X-Content-Type-Options "nosniff"
+
+		# X-XSS protection (legacy browsers only)
+		X-XSS-Protection "1; mode=block"
+
+		# Block malicious cross-origin access to resources and windows/tabs
+		Cross-Origin-Opener-Policy "same-origin"
+		Cross-Origin-Resource-Policy "same-origin"
+
+		# Referrer policy
+		Referrer-Policy "strict-origin-when-cross-origin"
+
+		# Prevent technology leaks
+		-Server
+		-X-Powered-By
+
+		# Permissions policy
+		Permissions-Policy "geolocation=(), microphone=(), camera=()"
+
+		# IE compatibility mode
+		X-UA-Compatible "IE=edge"
+	}
+}
+
+# ----------------------------------------------------------------------
+# | Default content security policy                                    |
+# ----------------------------------------------------------------------
+
+(content_security_policy) {
+	header Content-Security-Policy "base-uri 'self'; default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; form-action 'self'; connect-src 'self'; object-src 'none'; frame-ancestors 'none'; upgrade-insecure-requests;"
+}
+
+# ----------------------------------------------------------------------
+# | Redirect www subdomain to non-www                                  |
+# ----------------------------------------------------------------------
+
+# Usage: import www_to_naked example.com
+
+(www_to_naked) {
+	@www host www.{args[0]}
+	redir @www https://{args[0]}{uri} permanent
+}

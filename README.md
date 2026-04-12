@@ -8,9 +8,19 @@ ESLint v9, Prettier, Umami analytics, VPS with Caddy.
 
 ## Prerequisites
 
-- Node.js **22+**
-- pnpm (enable via `corepack enable` or install globally)
-- On Linux, `sharp` needs native build tools for image optimization
+- **Node.js 22+**
+- **pnpm.** Node ships Corepack but leaves it inactive. Run
+  `corepack enable` once and it will pick up the `packageManager` field
+  from `package.json` and use the matching pnpm version automatically.
+  If you'd rather not use Corepack, `npm install -g pnpm@latest` works
+  too.
+- **Image optimization (`sharp`).** sharp 0.33+ ships prebuilt
+  `libvips` binaries for glibc Linux (x64/arm64), macOS, and Windows,
+  so a standard Debian/Ubuntu box needs no extra build tools. On
+  Alpine/musl the `@img/sharp-linuxmusl-*` package is selected
+  automatically. If `pnpm install` is run with `--no-optional` or a
+  hoisting quirk drops the platform binary, run `pnpm rebuild sharp`
+  to fix it.
 
 ## Quick start
 
@@ -57,8 +67,11 @@ in `.github/workflows/deploy-vps.yml` builds statically and rsyncs
 
 Caddy fragments live in `deploy/` and expect your central Caddyfile to
 already define these snippets: `common_config`, `security_headers`,
-`content_security_policy`, `www_to_naked`. The `umami_proxy` snippet
-provided here serves Umami first-party at `/s.js` and `/api/send`.
+`content_security_policy`, `www_to_naked`. Ready-to-import versions of
+all four — matching the setup this boilerplate assumes — are provided in
+[`deploy/Caddyfile.snippets`](./deploy/Caddyfile.snippets); paste them
+into your central Caddyfile or `import` the file once. The `umami_proxy`
+snippet provided here serves Umami first-party at `/s.js` and `/api/send`.
 
 Cloudflare Workers is available as an alternative via
 `DEPLOY_TARGET=cloudflare` + `deploy/wrangler.jsonc`.
