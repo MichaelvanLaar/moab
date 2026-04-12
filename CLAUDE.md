@@ -1,13 +1,9 @@
 # moab
 
 Opinionated Astro 6 boilerplate for content-heavy websites.
-Stack: Astro 6 (SSG default, hybrid SSR via `DEPLOY_TARGET`), TypeScript strict, Tailwind v4, Preact for islands, pnpm, Lefthook, ESLint v9, Prettier, Umami analytics, Caddy on Hetzner VPS.
-
-**Current state:** empty repository. The build spec lives in `@BUILD_INSTRUCTIONS.md` — follow it phase by phase and verify each acceptance block before moving on.
+Stack: Astro 6 (SSG default, hybrid SSR via `DEPLOY_TARGET`), TypeScript strict, Tailwind v4, Preact for islands, pnpm, Lefthook, ESLint v9, Prettier, Umami analytics, VPS with Caddy.
 
 ## Commands
-
-Available after Phase 1 of `BUILD_INSTRUCTIONS.md`:
 
 - `pnpm dev` — dev server
 - `pnpm build` — static build (also `build:static`, `build:node`, `build:cloudflare`)
@@ -42,4 +38,4 @@ When I correct a mistake or point out a recurring issue, append a one-line summa
 
 ## Compact Instructions
 
-When compacting, preserve: list of modified files, current phase in `BUILD_INSTRUCTIONS.md`, test/typecheck/lint status, open TODOs, and key decisions made.
+When compacting, preserve: list of modified files, test/typecheck/lint status, open TODOs, and key decisions made.

@@ -4,7 +4,7 @@ Opinionated Astro 6 boilerplate for content-heavy websites.
 
 **Stack:** Astro 6 (SSG by default, hybrid SSR via `DEPLOY_TARGET`),
 TypeScript strict, Tailwind CSS v4, Preact for islands, pnpm, Lefthook,
-ESLint v9, Prettier, Umami analytics, Caddy on a Hetzner VPS.
+ESLint v9, Prettier, Umami analytics, VPS with Caddy.
 
 ## Prerequisites
 
@@ -49,7 +49,7 @@ pnpm add @astrojs/cloudflare    # for DEPLOY_TARGET=cloudflare
 
 ## Deployment
 
-Primary target: Hetzner VPS behind Caddy. The GitHub Actions workflow
+Primary target: a Linux VPS behind Caddy. The GitHub Actions workflow
 in `.github/workflows/deploy-vps.yml` builds statically and rsyncs
 `dist/` over SSH. It expects these repository secrets:
 `SSH_PRIVATE_KEY`, `SSH_KNOWN_HOSTS`, `SSH_HOST`, `SSH_USER`,

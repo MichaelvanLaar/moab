@@ -1,4 +1,4 @@
-# Caddyfile fragment for a static Astro site on a Hetzner VPS.
+# Caddyfile fragment for a static Astro site served via Caddy on a VPS.
 #
 # Assumes the central Caddyfile already defines these snippets:
 #   - common_config

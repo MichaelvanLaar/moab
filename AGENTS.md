@@ -6,7 +6,7 @@ Guidance for any AI coding agent working in this repository.
 
 Opinionated Astro 6 boilerplate for content-heavy websites.
 TypeScript strict, Tailwind v4, Preact for islands, Umami analytics,
-Caddy on a Hetzner VPS (primary) with Cloudflare Workers as a switch.
+VPS with Caddy (primary) with Cloudflare Workers as a switch.
 
 ## Commands
 
@@ -52,7 +52,7 @@ the project owner replaces them per project.
 
 ## Deployment
 
-Primary target: Hetzner VPS with Caddy, built statically through a
+Primary target: a Linux VPS with Caddy, built statically through a
 GitHub Actions workflow that rsyncs `dist/` over SSH. Cloudflare Workers
 is available via `DEPLOY_TARGET=cloudflare`. Umami analytics is proxied
 first-party via Caddy at `/s.js` and `/api/send` (see
