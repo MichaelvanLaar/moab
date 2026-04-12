@@ -1,0 +1,36 @@
+# Caddyfile fragment for a static Astro site on a Hetzner VPS.
+#
+# Assumes the central Caddyfile already defines these snippets:
+#   - common_config
+#   - security_headers
+#   - content_security_policy
+#   - www_to_naked
+#
+# This file contributes the `umami_proxy` snippet and a site-block template.
+
+# Umami analytics proxy (first-party)
+# Usage: import umami_proxy
+(umami_proxy) {
+    handle /s.js {
+        rewrite * /script.js
+        reverse_proxy https://umami.example.com {
+            header_up Host umami.example.com
+        }
+    }
+    handle /api/send {
+        reverse_proxy https://umami.example.com {
+            header_up Host umami.example.com
+        }
+    }
+}
+
+# Site block template — replace example.com and the umami host before use.
+# example.com, www.example.com {
+#     root * /var/www/example.com
+#     import www_to_naked example.com
+#     import common_config
+#     import security_headers
+#     import content_security_policy
+#     import umami_proxy
+#     file_server
+# }

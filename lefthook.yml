@@ -1,0 +1,13 @@
+pre-commit:
+  parallel: true
+  commands:
+    lint:
+      glob: '*.{ts,tsx,js,jsx,astro}'
+      run: pnpm exec eslint --fix {staged_files}
+      stage_fixed: true
+    format:
+      glob: '*.{ts,tsx,js,jsx,json,md,css,astro}'
+      run: pnpm exec prettier --write {staged_files}
+      stage_fixed: true
+    typecheck:
+      run: pnpm exec astro check

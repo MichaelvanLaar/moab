@@ -1,0 +1,31 @@
+# Caddyfile fragment for running Astro in Node standalone (SSR) mode
+# behind Caddy as a reverse proxy. Assumes the Astro server runs on
+# localhost:4321 (the default for @astrojs/node standalone).
+#
+# Assumes the central Caddyfile already defines:
+#   - common_config
+#   - security_headers
+#   - content_security_policy
+#   - www_to_naked
+#   - umami_proxy (from Caddyfile.static, if Umami is in use)
+
+# example.com, www.example.com {
+#     import www_to_naked example.com
+#     import common_config
+#     import security_headers
+#     import content_security_policy
+#     import umami_proxy
+#
+#     # Serve hashed, immutable Astro assets directly from disk, bypassing
+#     # the Node process entirely. Adjust the root path to where the built
+#     # client assets live on the server.
+#     @astro_assets path /_astro/*
+#     handle @astro_assets {
+#         root * /var/www/example.com/client
+#         header Cache-Control "public, max-age=31536000, immutable"
+#         file_server
+#     }
+#
+#     # Everything else goes to the Astro Node server.
+#     reverse_proxy localhost:4321
+# }

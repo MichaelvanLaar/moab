@@ -1,0 +1,42 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  canonical?: string | URL;
+  image?: string | URL;
+  noindex?: boolean;
+  type?: 'website' | 'article';
+}
+
+const { title, description, canonical, image, noindex = false, type = 'website' } = Astro.props;
+
+const siteOrigin = Astro.site?.origin ?? Astro.url.origin;
+const canonicalUrl = new URL(canonical ?? Astro.url.pathname, siteOrigin);
+const ogImage = image ? new URL(image.toString(), siteOrigin) : undefined;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: title,
+  url: siteOrigin,
+  description,
+};
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonicalUrl.toString()} />
+{noindex && <meta name="robots" content="noindex, nofollow" />}
+
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:type" content={type} />
+<meta property="og:url" content={canonicalUrl.toString()} />
+{ogImage && <meta property="og:image" content={ogImage.toString()} />}
+
+<meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+{ogImage && <meta name="twitter:image" content={ogImage.toString()} />}
+
+<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />

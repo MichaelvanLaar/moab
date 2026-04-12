@@ -1,0 +1,16 @@
+---
+import { UMAMI_WEBSITE_ID } from 'astro:env/client';
+const isProd = import.meta.env.PROD;
+---
+
+{
+  isProd && UMAMI_WEBSITE_ID && (
+    <script
+      is:inline
+      defer
+      src="/s.js"
+      data-website-id={UMAMI_WEBSITE_ID}
+      data-host-url={Astro.site?.origin}
+    />
+  )
+}

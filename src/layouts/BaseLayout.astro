@@ -1,0 +1,53 @@
+---
+import { ClientRouter } from 'astro:transitions';
+import SEO from '@/components/seo/SEO.astro';
+import Analytics from '@/components/analytics/Analytics.astro';
+import { getLangFromUrl, useTranslations } from '@/i18n/utils';
+import '@/styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  canonical?: string;
+  noindex?: boolean;
+}
+
+const { title, description, image, canonical, noindex } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<!doctype html>
+<html lang={lang} dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <SEO
+      title={title}
+      description={description}
+      image={image}
+      canonical={canonical}
+      noindex={noindex}
+    />
+    <ClientRouter />
+    <Analytics />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">{t('skip.to_content')}</a>
+
+    <header>
+      <slot name="header" />
+    </header>
+
+    <main id="main">
+      <slot />
+    </main>
+
+    <footer>
+      <slot name="footer" />
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,54 @@
+{
+  "name": "moab",
+  "type": "module",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "build:static": "DEPLOY_TARGET=static astro build",
+    "build:node": "DEPLOY_TARGET=node astro build",
+    "build:cloudflare": "DEPLOY_TARGET=cloudflare astro build",
+    "preview": "astro preview",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "typecheck": "astro check",
+    "check": "pnpm typecheck && pnpm lint",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/preact": "^5.1.1",
+    "@astrojs/sitemap": "^3.7.2",
+    "astro": "^6.1.5",
+    "preact": "^10.29.1"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.8",
+    "@astrojs/rss": "^4.0.18",
+    "@eslint/js": "^10.0.1",
+    "@tailwindcss/typography": "^0.5.19",
+    "@tailwindcss/vite": "^4.2.2",
+    "@typescript-eslint/eslint-plugin": "^8.58.1",
+    "@typescript-eslint/parser": "^8.58.1",
+    "eslint": "^10.2.0",
+    "eslint-plugin-astro": "^1.7.0",
+    "globals": "^17.5.0",
+    "lefthook": "^2.1.5",
+    "mdast-util-to-string": "^4.0.0",
+    "prettier": "^3.8.2",
+    "prettier-plugin-astro": "^0.14.1",
+    "prettier-plugin-tailwindcss": "^0.7.2",
+    "reading-time": "^1.5.0",
+    "tailwindcss": "^4.2.2",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.58.1"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "lefthook",
+      "sharp"
+    ]
+  }
+}

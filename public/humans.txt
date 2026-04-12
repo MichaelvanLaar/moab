@@ -1,0 +1,9 @@
+/* TEAM */
+Owner: TODO
+Contact: TODO
+Location: TODO
+
+/* SITE */
+Last update: TODO
+Language: Deutsch / English
+Built with: Astro, Tailwind CSS, Preact
