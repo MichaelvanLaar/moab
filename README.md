@@ -60,9 +60,10 @@ pnpm add @astrojs/cloudflare    # for DEPLOY_TARGET=cloudflare
 ## Deployment
 
 Primary target: a Linux VPS behind Caddy. The GitHub Actions workflow
-in `.github/workflows/deploy-vps.yml` builds statically and rsyncs
-`dist/` over SSH. It expects these repository secrets:
-`SSH_PRIVATE_KEY`, `SSH_KNOWN_HOSTS`, `SSH_HOST`, `SSH_USER`,
+in `.github/workflows/deploy-vps.yml` runs on every push to `main`
+(and can be triggered manually via `workflow_dispatch`), builds
+statically, and rsyncs `dist/` over SSH. It expects these repository
+secrets: `SSH_PRIVATE_KEY`, `SSH_KNOWN_HOSTS`, `SSH_HOST`, `SSH_USER`,
 `DEPLOY_PATH`, `SITE_URL`.
 
 Caddy fragments live in `deploy/` and expect your central Caddyfile to
@@ -75,6 +76,27 @@ snippet provided here serves Umami first-party at `/s.js` and `/api/send`.
 
 Cloudflare Workers is available as an alternative via
 `DEPLOY_TARGET=cloudflare` + `deploy/wrangler.jsonc`.
+
+### Pull request previews
+
+`.github/workflows/deploy-preview.yml` deploys a per-PR preview to the
+same VPS. On `opened`, `synchronize`, and `reopened` events it builds
+statically and rsyncs `dist/` to `/var/www/previews/pr-<number>/`, then
+sticky-comments the preview URL on the PR. When the PR is closed (merged
+or not), the cleanup job removes that directory. It reuses the same SSH
+secrets as the main deploy workflow.
+
+Before using it, edit the `PREVIEW_URL` / `SITE_URL` host in
+`deploy-preview.yml` (currently `preview-<N>.example.com`) and configure
+Caddy to serve `/var/www/previews/pr-*` under a wildcard host.
+
+**Previews must not be discoverable by search engines.** The workflow
+itself does not enforce this — configure it at the Caddy layer for the
+preview host, for example by sending `X-Robots-Tag: noindex, nofollow`
+on all responses and/or putting the preview host behind HTTP basic auth.
+A `robots.txt` alone is not sufficient. If you work alone and don't
+share PR previews with third parties, you can simply delete
+`deploy-preview.yml`.
 
 ## Analytics
 
