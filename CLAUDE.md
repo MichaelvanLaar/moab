@@ -2,13 +2,6 @@
 
 # moab — Claude Code additions
 
-## Commands
-
-- `pnpm dev` — dev server
-- `pnpm build` — static build (also `build:static`, `build:node`, `build:cloudflare`)
-- `pnpm preview` — preview built site
-- `pnpm lint` / `pnpm format` / `pnpm typecheck` / `pnpm check`
-
 ## Hard rules
 
 - **pnpm only.** Never `npm` or `yarn`. Use `pnpm astro add <pkg>` for integrations.
