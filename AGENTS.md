@@ -58,6 +58,23 @@ is available via `DEPLOY_TARGET=cloudflare`. Umami analytics is proxied
 first-party via Caddy at `/s.js` and `/api/send` (see
 `deploy/Caddyfile.static`).
 
+## Claude Design handoffs
+
+When the prompt starts with "Fetch this design file … implement":
+
+**Tokens.** `src/styles/tokens.css` is designed to be replaced per project — do that. Map the design system's semantic equivalents to moab's existing token names (e.g. design's `--paper` → `--color-bg`, `--ink` → `--color-text`, primary accent → `--color-brand`). For design tokens with no moab equivalent, add them as new `--color-*` entries in `tokens.css` and register them in the `@theme` block in `global.css`. Never reference design-package CSS variable names directly in Astro components; always use moab token names.
+
+**Fonts.** Place `.woff2` files in `public/fonts/` (the directory exists). Add `@font-face` declarations at the top of `tokens.css` using absolute paths (`url('/fonts/filename.woff2')`). Update `--font-sans` and/or `--font-mono` in the `:root` block to reference the new font family.
+
+**Components.** The prototype JSX files are React 18 + Babel, fully client-rendered. Translate to Astro:
+
+- Purely presentational → `.astro` component
+- Scroll listeners, toggle state, or `useState`/`useEffect` → Preact `.tsx` island; `client:load` for nav/header, `client:visible` for everything below the fold
+- CSS-only alternatives (`:has()`, scroll-driven animations) are preferred over a Preact island when feasible
+- Adapt: drop `React.*` globals; use `useState`, `useEffect` from `preact/hooks`
+
+**Assets.** Copy SVGs to `src/assets/images/`. Import inline SVGs directly. Use `<Image>` from `astro:assets` for raster or dimensioned images.
+
 ## Don't
 
 - Don't add a CMS, auth, ORM, or UI component library.

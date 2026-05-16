@@ -22,6 +22,10 @@
   --color-text-muted: #5b5957;
   --color-border: #d9d7d4;
 
+  /* Typography — font families */
+  --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+
   /* Typography — modular scale, ratio 1.2 */
   --font-size-xs: 0.694rem;
   --font-size-sm: 0.833rem;

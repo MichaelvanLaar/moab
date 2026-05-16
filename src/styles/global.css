@@ -8,6 +8,9 @@
  * `text-text`, `rounded-md`, etc. resolve to the CSS custom properties above.
  */
 @theme {
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+
   --color-brand: var(--color-brand);
   --color-brand-contrast: var(--color-brand-contrast);
   --color-accent: var(--color-accent);
@@ -58,11 +61,7 @@
 
   body {
     min-height: 100svh;
-    font-family:
-      system-ui,
-      -apple-system,
-      'Segoe UI',
-      sans-serif;
+    font-family: var(--font-sans);
     line-height: 1.6;
   }
 
