@@ -1,0 +1,9 @@
+# dependencies — large trees, no useful source to index
+node_modules/
+
+# build output
+dist/
+.astro/
+
+# binary assets — woff2 files have no readable content
+public/fonts/

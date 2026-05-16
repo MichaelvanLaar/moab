@@ -11,3 +11,5 @@ pre-commit:
       stage_fixed: true
     typecheck:
       run: pnpm exec astro check
+    gitleaks:
+      run: gitleaks git --pre-commit --staged || exit 1
