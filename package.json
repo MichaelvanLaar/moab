@@ -20,11 +20,12 @@
   "dependencies": {
     "@astrojs/preact": "^5.1.1",
     "@astrojs/sitemap": "^3.7.2",
-    "astro": "^7.1.1",
+    "astro": "^7.2.7",
     "preact": "^10.29.1"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.8",
+    "@astrojs/markdown-remark": "^7.2.4",
     "@astrojs/rss": "^4.0.19",
     "@eslint/js": "^10.0.1",
     "@tailwindcss/typography": "^0.5.19",
@@ -45,6 +46,16 @@
     "typescript-eslint": "^8.58.1"
   },
   "pnpm": {
+    "overrides": {
+      "postcss": "^8.5.26",
+      "yaml": "^2.9.0",
+      "brace-expansion": "^5.0.9",
+      "devalue": "^5.9.1",
+      "esbuild": "^0.28.2",
+      "@babel/core": "^7.29.7",
+      "fast-uri": "^3.1.6",
+      "nanoid": "^3.3.18"
+    },
     "onlyBuiltDependencies": [
       "esbuild",
       "lefthook",
