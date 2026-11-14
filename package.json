@@ -20,7 +20,7 @@
   "dependencies": {
     "@astrojs/preact": "^5.1.5",
     "@astrojs/sitemap": "^3.7.4",
-    "astro": "^7.3.5",
+    "astro": "^7.4.7",
     "preact": "^10.29.1"
   },
   "devDependencies": {
